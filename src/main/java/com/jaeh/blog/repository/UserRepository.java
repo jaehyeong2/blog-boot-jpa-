@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository //생략가능
 public interface UserRepository  extends JpaRepository<User,Integer> {
     //JPA 네이밍 전략
-    User findByUsernameAndPassword(String username,String password);
+   // User findByUsernameAndPassword(String username,String password);
 }
