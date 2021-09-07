@@ -4,6 +4,7 @@ import com.jaeh.blog.model.User;
 import com.jaeh.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -11,14 +12,12 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public int join(User user) {
-        try {
-            userRepository.save(user);
-            return 1;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Userservice 회원가입:"+e.getMessage());
-        }
-        return -1;
+    @Transactional
+    public void join(User user) {
+        userRepository.save(user);
+    }
+    @Transactional(readOnly = true)
+    public User login(User user) {
+        return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
     }
 }

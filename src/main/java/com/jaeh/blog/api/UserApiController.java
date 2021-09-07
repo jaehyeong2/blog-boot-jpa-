@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class UserApiController {
     @Autowired
@@ -18,7 +20,17 @@ public class UserApiController {
     @PostMapping("/api/user")
     public ResponseDto<Integer> save(@RequestBody User user){
         user.setRole(RoleType.USER);
-        int result = userService.join(user);
-        return new ResponseDto<Integer>(HttpStatus.OK,result);
+        userService.join(user);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+    }
+    @PostMapping("/api/user/login")
+    public ResponseDto<Integer> login(@RequestBody User user, HttpSession session) {
+        System.out.println("Userapi컨트롤러 호출됨");
+        User principal = userService.login(user);
+
+        if( principal!=null ){
+            session.setAttribute("principal",principal);
+        }
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 }
