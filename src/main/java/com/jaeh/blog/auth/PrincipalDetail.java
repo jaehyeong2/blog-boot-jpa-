@@ -1,6 +1,8 @@
 package com.jaeh.blog.auth;
 
 import com.jaeh.blog.model.User;
+import lombok.Data;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Getter
 public class PrincipalDetail implements UserDetails {
-    @Autowired
+
     private User user;
 
     public PrincipalDetail(User user) {

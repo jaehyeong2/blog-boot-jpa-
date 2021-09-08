@@ -25,7 +25,6 @@ public class Board {
     @Lob
     private String content;
 
-    @ColumnDefault("0")
     private int count;//조회수
 
     @ManyToOne
@@ -34,7 +33,5 @@ public class Board {
 
     @CreationTimestamp
     private Timestamp createDate;
-
-
 
 }
