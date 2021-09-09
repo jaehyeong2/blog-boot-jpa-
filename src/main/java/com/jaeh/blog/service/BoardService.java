@@ -47,6 +47,7 @@ public class BoardService {
          boardRepository.deleteById(id);
     }
 
+    @Transactional
     public void modify(int id, Board requestBoard) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(()->{

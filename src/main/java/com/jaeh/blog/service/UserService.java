@@ -4,6 +4,11 @@ import com.jaeh.blog.model.RoleType;
 import com.jaeh.blog.model.User;
 import com.jaeh.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +30,16 @@ public class UserService {
         user.setRole(RoleType.USER);
         userRepository.save(user);
     }
-//    @Transactional(readOnly = true)
-//    public User login(User user) {
-//        return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-//    }
+
+    @Transactional
+    public void update(User user) {
+        User persistence = userRepository.findById(user.getId()).orElseThrow(()->{
+            return new IllegalArgumentException("회원찾기 실패");
+        });
+        String rawPassword = user.getPassword();
+        String encodePassword = encoder.encode(rawPassword);
+        persistence.setPassword(encodePassword);
+        persistence.setEmail(user.getEmail());
+    }
+//
 }
