@@ -1,5 +1,7 @@
 package com.jaeh.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,8 +31,13 @@ public class Board {
     private int count;//조회수
 
     @ManyToOne
-    @JoinColumn(name="userid")
+    @JoinColumn(name="userId")
     private User user;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"board"})
+    @OrderBy("id desc")
+    private List<Reply> replies;
 
     @CreationTimestamp
     private Timestamp createDate;

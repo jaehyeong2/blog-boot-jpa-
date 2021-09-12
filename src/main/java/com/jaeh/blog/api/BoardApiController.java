@@ -4,6 +4,7 @@ import com.jaeh.blog.auth.PrincipalDetail;
 import com.jaeh.blog.auth.PrincipalDetailService;
 import com.jaeh.blog.dto.ResponseDto;
 import com.jaeh.blog.model.Board;
+import com.jaeh.blog.model.Reply;
 import com.jaeh.blog.model.User;
 import com.jaeh.blog.service.BoardService;
 import com.jaeh.blog.service.UserService;
@@ -36,6 +37,12 @@ public class BoardApiController {
         return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
     }
 
+    @PostMapping("/api/board/{id}/reply")
+    public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail principal){
+
+        boardService.commentWrite(principal.getUser(),boardId,reply);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+    }
 
 
 }

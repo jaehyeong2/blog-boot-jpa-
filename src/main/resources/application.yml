@@ -30,12 +30,6 @@ spring:
       serialization:
         fail-on-empty-beans: false
 
-    http:
-      encoding:
-        charset: UTF-8
-        enabled: true
-        force: true
-
 pig:
   key: pig1234
 
